@@ -91,4 +91,66 @@ class ProductFlowTest extends TestCase
 
         $response->assertSessionHasErrors(['product_name', 'description', 'price']);
     }
+
+    public function test_validasi_gagal_jika_nama_produk_duplikat_saat_tambah(): void
+    {
+        Product::create([
+            'product_name' => 'Kopi Duplikat',
+            'description' => 'Deskripsi lama',
+            'price' => 10000,
+        ]);
+
+        $response = $this->post(route('products.store'), [
+            'product_name' => 'Kopi Duplikat',
+            'description' => 'Deskripsi baru',
+            'price' => 15000,
+        ]);
+
+        $response->assertSessionHasErrors(['product_name']);
+    }
+
+    public function test_validasi_gagal_jika_nama_produk_duplikat_saat_edit(): void
+    {
+        Product::create([
+            'product_name' => 'Kopi Pertama',
+            'description' => 'Deskripsi',
+            'price' => 10000,
+        ]);
+
+        $secondProduct = Product::create([
+            'product_name' => 'Kopi Kedua',
+            'description' => 'Deskripsi',
+            'price' => 15000,
+        ]);
+
+        $response = $this->put(route('products.update', $secondProduct), [
+            'product_name' => 'Kopi Pertama',
+            'description' => 'Deskripsi update',
+            'price' => 20000,
+        ]);
+
+        $response->assertSessionHasErrors(['product_name']);
+    }
+
+    public function test_produk_dapat_diupdate_tanpa_mengubah_nama(): void
+    {
+        $product = Product::create([
+            'product_name' => 'Kopi Tetap',
+            'description' => 'Deskripsi awal',
+            'price' => 10000,
+        ]);
+
+        $response = $this->put(route('products.update', $product), [
+            'product_name' => 'Kopi Tetap',
+            'description' => 'Deskripsi diperbarui',
+            'price' => 15000,
+        ]);
+
+        $response->assertRedirect(route('products.index'));
+        $this->assertDatabaseHas('products', [
+            'id' => $product->id,
+            'product_name' => 'Kopi Tetap',
+            'description' => 'Deskripsi diperbarui',
+        ]);
+    }
 }

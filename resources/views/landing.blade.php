@@ -6,7 +6,7 @@
 <header class="navbar">
     <div class="container nav-inner">
         <a class="brand" href="#beranda">Kopi Ulee Kareng</a>
-        <nav>
+        <nav class="navwar">
             <a href="#tentang">Tentang</a>
             <a href="#keunggulan">Keunggulan</a>
             <a href="#produk">Produk</a>

@@ -54,6 +54,21 @@
     @enderror
 </div>
 
+<div class="form-group">
+    <label for="stock">stok</label>
+    <input
+        id="stock"
+        name="stock"
+        type="number"
+        min="0"
+        value="{{ old('price', $product->stock ?? '') }}"
+        class="form-control @error('stock') is-invalid @enderror"
+    >
+    @error('stock')
+        <small class="error">{{ $message }}</small>
+    @enderror
+</div>
+
 <div class="form-actions">
     <button class="btn" type="submit">{{ $tombol }}</button>
     <a class="btn btn-secondary" href="{{ route('products.index') }}">

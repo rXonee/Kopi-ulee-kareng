@@ -32,6 +32,7 @@
                         <th>Nama</th>
                         <th>Harga</th>
                         <th>Gambar</th>
+                        <th>Stok</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -52,6 +53,9 @@
                                     alt="{{ $product->product_name }}"
                                     style="width: 48px; height: 48px; object-fit: cover; border-radius: 6px;"
                                 >
+                            </td>
+                            <td>
+                                <strong>{{ $product->stock }}</strong>
                             </td>
                             <td>
                                 <div class="actions">
